@@ -15,6 +15,8 @@ import type { AnimeType, AnimeResponse } from './types/AnimeType';
 
 export default function App() {
   const [page] = useState(1);
+  const [query, setQuery] = useState("");
+
 
   // const [animes] = useState(animesData);
   // const [selectedAnime, setSelectedAnime] = useState(animes[0]);
@@ -24,24 +26,28 @@ export default function App() {
     ["animes", page]
   );
 
-  const [selectedAnime, setSelectedAnime] = useState<AnimeType | null>(null);
+  const [selectedAnime] = useState<AnimeType | null>(null);
+
+  const filteredAnimes = data?.data.filter((anime) =>
+    anime.title.toLowerCase().includes(query.toLowerCase())
+  ) || [];
+
+  
+  
   if (isLoading) return <p>Loading...</p>;
+  
 
   return (
     <>
       <Navbar>
-        <SearchNavbar>
-          <Result animes={data?.data || []} />
+        <SearchNavbar onSearch={setQuery}>
+          <Result animes={filteredAnimes} />
         </SearchNavbar>
       </Navbar>
       <MainContent>
         <Box selectedAnime={selectedAnime}>
           <AnimeList
-              animes={data?.data || []}
-              onSelectedAnime={(id: number) => {
-                const find = data?.data.find(a => a.mal_id === id);
-                if (find) setSelectedAnime(find);
-              }}
+              animes={filteredAnimes}
             />
         </Box>
         {/* <Box selectedAnime={selectedAnime}>
