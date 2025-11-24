@@ -8,7 +8,7 @@ type ResultProps = {
 export default function Result( {animes} : ResultProps ) {
   return (
     <p className="search-results">
-      Found <strong>{animes.length}</strong> results
+      Found <strong>{animes.length}</strong> results Anime
     </p>
   )
 }

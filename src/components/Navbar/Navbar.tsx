@@ -7,7 +7,7 @@ type NavbarProps = {
 
 export default function Navbar( {children}: NavbarProps ) {
   return (
-    <nav className="nav-bar">
+    <nav className="flex justify-center">
       <Logo />
       {children}
       
