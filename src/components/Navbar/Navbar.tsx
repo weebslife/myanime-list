@@ -7,10 +7,9 @@ type NavbarProps = {
 
 export default function Navbar( {children}: NavbarProps ) {
   return (
-    <nav className="flex justify-center">
+    <nav className="flex flex-col gap-4 justify-center">
       <Logo />
       {children}
-      
     </nav>
   )
 }

@@ -7,7 +7,7 @@ type ResultProps = {
 
 export default function Result( {animes} : ResultProps ) {
   return (
-    <p className="search-results">
+    <p className="text-xl">
       Found <strong>{animes.length}</strong> results Anime
     </p>
   )

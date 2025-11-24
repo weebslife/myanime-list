@@ -7,7 +7,7 @@ type childrenProps = {
 export default function MainContent( { children }: childrenProps  ) {
 
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center mt-4">
       {children}
     </main>
   );
