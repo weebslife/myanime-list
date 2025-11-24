@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 // import { getAnimes } from "../services/anime/serviceAnime";
 
 // export function useFetcher<T>({

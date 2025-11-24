@@ -1,17 +1,22 @@
-import { getAnimes } from "../../../services/anime/serviceAnime";
+import { getAnimeSeasons } from "../../../services/anime/serviceAnime";
 import { useFetcher } from "../../../hooks";
-import type { AnimeResponse } from "../../../types/AnimeType";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Type Import
+import type { AnimeResponse } from "../../../types/AnimeType";
 
 export default function AnimeList() {
   const searchParams = new URLSearchParams(window.location.search);
   const initialPage = Number(searchParams.get("page")) || 1;
+  const navigate = useNavigate();
+
 
   const [page, setPage] = useState(initialPage);
 
 
   const { data, isLoading } = useFetcher<AnimeResponse>(
-    () => getAnimes(page),
+    () => getAnimeSeasons(page),
     ["animes", page]
   );
 
@@ -46,34 +51,36 @@ export default function AnimeList() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-4">
-        {data?.data?.map((anime) => (
-          <div key={anime.mal_id} className="bg-[#3c4c54] rounded-lg shadow-lg overflow-hidden w-full flex flex-col" onClick={() => window.open(anime.url, "_blank")}>
-            <img className="w-full aspect-[3/4] object-cover" src={anime.images.webp.image_url} alt={anime.title} />
+      <div className="flex justify-center w-full">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-4 bg-[#E0E0E0] p-6 rounded-xl">
+          {data?.data?.map((anime) => (
+            <div key={anime.mal_id} className="bg-[#3c4c54] rounded-lg shadow-lg overflow-hidden w-full flex flex-col">
+              <img className="w-full aspect-[3/4] object-cover cursor-pointer" src={anime.images.webp.large_image_url} alt={anime.title} onClick={() => navigate(`/anime/${anime.mal_id}`)}  />
 
-            <div className="px-4 py-3 flex flex-col flex-grow">
-              
-              <h3 className="font-bold text-lg mb-2 line-clamp-1">
-                {anime.title}
-              </h3>
+              <div className="px-4 py-3 flex flex-col flex-grow">
+                
+                <h3 className="font-bold text-3xl mb-2 line-clamp-1">
+                  {anime.title}
+                </h3>
 
-              <p className="text-base text-gray-300 line-clamp-4 flex-grow">
-                {anime.synopsis}
-              </p>
+                <p className="text-lg text-gray-300 line-clamp-4 flex-grow">
+                  {anime.synopsis}
+                </p>
+              </div>
+
+              <div className="px-4 pb-4 flex flex-wrap gap-2">
+                {anime.genres.map((genre) => (
+                  <a href={genre.url} key={genre.mal_id}>
+                    <span className="bg-gray-200 text-gray-900 px-3 py-1 rounded-full text-lg font-semibold">
+                    {genre.name}
+                  </span>
+                  </a>
+                ))}
+              </div>
             </div>
+          ))}
 
-            <div className="px-4 pb-4 flex flex-wrap gap-2">
-              {anime.genres.map((genre) => (
-                <a href={genre.url} key={genre.mal_id}>
-                  <span className="bg-gray-200 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
-                  {genre.name}
-                </span>
-                </a>
-              ))}
-            </div>
-          </div>
-        ))}
-
+        </div>
       </div>
     </>
 
